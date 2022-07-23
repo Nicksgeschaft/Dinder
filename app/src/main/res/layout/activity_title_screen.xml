@@ -52,6 +52,7 @@
         app:rippleColor="@color/foreground"
         tools:onClick="to_login" />
 
+
     <Button
         android:id="@+id/buttonregister"
         android:layout_width="wrap_content"
