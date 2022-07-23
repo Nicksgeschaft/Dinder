@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Dinder</string>
+    <string name="email_de">E-Mail</string>
+    <string name="password_de">Passwort</string>
+    <string name="login_de">Login</string>
+    <string name="register_de">Registrieren</string>
+</resources>
