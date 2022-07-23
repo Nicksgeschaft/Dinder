@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Dinder"
         tools:targetApi="31">
         <activity
-            android:name=".register2"
+            android:name=".Register2"
             android:exported="true"
             android:label="@string/register_de"/>
         <activity
