@@ -15,8 +15,8 @@ public class TitleScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_title_screen);
 
-        button =  findViewById(R.id.button);
-        button2 =  findViewById(R.id.button2);
+        button =  findViewById(R.id.buttonlogin);
+        button2 =  findViewById(R.id.buttonregister);
         button.setOnClickListener(view -> openLogIn());
         button2.setOnClickListener(view -> openRegister());
     }

@@ -3,5 +3,9 @@
     <string name="email_de">E-Mail</string>
     <string name="password_de">Passwort</string>
     <string name="login_de">Login</string>
+    <string name="check_de">prüfen</string>
+    <string name="continue_de">weiter</string>
+    <string name="keeplogin_de">Login speichern?</string>
     <string name="register_de">Registrieren</string>
+    <string name="interest_de">#Interesse</string>
 </resources>
