@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
@@ -14,20 +16,25 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         EditText mail = findViewById(R.id.mail);
+        EditText pw = findViewById(R.id.password);
         findViewById(R.id.login).setOnClickListener(view -> sendData()); // Button send Data
 
-        mail.setOnFocusChangeListener(new View.OnFocusChangeListener() { //E-Mail
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-               if (!hasFocus) { // nach Beendigung der E-Mail-Eingabe
-                    {
-                        if(true){ // Abfrage, ob E-Mail ist valide xxx@yyy.zz / xxx@yyy.z1.zx / ... - funktioniert nicht
-                            findViewById(R.id.login).setEnabled(true);
-                        }
-                    }
+        mail.addTextChangedListener(new TextWatcher() { // watches Email Input
+
+            public void afterTextChanged(Editable s) {}
+
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if(true){ // Abfrage, ob E-Mail ist valide xxx@yyy.zz / xxx@yyy.z1.zx / ... - funktioniert nicht
+                    findViewById(R.id.login).setEnabled(true);
                 }
             }
         });
+
 
     }
     public void sendData(){
