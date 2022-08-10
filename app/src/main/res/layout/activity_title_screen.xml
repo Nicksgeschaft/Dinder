@@ -40,18 +40,18 @@
     <Button
         android:id="@+id/buttonlogin"
         android:layout_width="201dp"
-        android:layout_height="38dp"
+        android:layout_height="48dp"
         android:background="@color/foreground"
         android:backgroundTint="@color/foreground"
-        android:text="Login"
+        android:onClick="openLogIn"
+        android:text="@string/login_de"
         android:textColor="@color/white"
         app:iconTint="@color/foreground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:rippleColor="@color/foreground"
-        tools:onClick="to_login" />
+        app:rippleColor="@color/foreground" />
 
 
     <Button
