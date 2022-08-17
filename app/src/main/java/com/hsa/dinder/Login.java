@@ -49,6 +49,9 @@ public class Login extends AppCompatActivity {
     }
     public void sendData(String email, String password){
         new MyTask().execute();
+        if(true){ // email & password sind korrekt
+            openMyPage();
+        }
     }
 
     public void openMyPage() { // Login.class -> MyPage
