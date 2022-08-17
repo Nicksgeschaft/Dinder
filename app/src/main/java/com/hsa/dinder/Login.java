@@ -52,7 +52,7 @@ public class Login extends AppCompatActivity {
     }
 
     public void openMyPage() { // Login.class -> MyPage
-        Intent intent= new Intent(this, Login.class);
+        Intent intent= new Intent(this, Meetings.class);
         startActivity(intent);
     }
 
