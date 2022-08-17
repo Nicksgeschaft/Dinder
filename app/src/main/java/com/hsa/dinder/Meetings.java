@@ -152,7 +152,7 @@ public class Meetings extends AppCompatActivity {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            return BA.getName();
+            return BA.getName() + " Permission";
         }
         String name = BA.getName();
         if (name==null){
