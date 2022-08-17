@@ -27,11 +27,9 @@ public class Register1 extends AppCompatActivity {
         EditText pw1 = findViewById(R.id.password1);
         EditText pw2 = findViewById(R.id.password2);
         findViewById(R.id.reg2).setOnClickListener(view -> {
-            try {
-                openRegister2(email, password);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
+                openRegister2(email, pw1.getText().toString());
+
         });
 
         final boolean[] emc = {false};
@@ -80,7 +78,7 @@ public class Register1 extends AppCompatActivity {
         });
     }
 
-    public void openRegister2(String email, String password) throws Exception {
+    public void openRegister2(String email, String password){
         String uri = "neo4j+s://0a1e255a.databases.neo4j.io:7687";
         String user = "neo4j";
         String psw= "den2qfo4_9d2q0inyablqzgqfxdp3fijeq4k_wwgo_a";
@@ -88,6 +86,8 @@ public class Register1 extends AppCompatActivity {
         String clearname = "Max Mustermann";
         try (DBCom app = new DBCom(uri, user, psw, Config.defaultConfig())) {
             app.createUser(username,email,password,clearname);
+        }catch (Exception e) {
+            e.printStackTrace();
         }
         Intent intent= new Intent(this, Register2.class);
         startActivity(intent);
