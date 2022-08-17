@@ -1,21 +1,40 @@
 package com.hsa.dinder;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import org.neo4j.driver.Config;
+
+import testPack.DBCom;
+
 public class Register1 extends AppCompatActivity {
 
+    protected static String email;
+    //protected String email = "";
+    protected static String password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register1);
         EditText mail = findViewById(R.id.mail);
+        EditText pw1 = findViewById(R.id.password1);
+        EditText pw2 = findViewById(R.id.password2);
+        findViewById(R.id.reg2).setOnClickListener(view -> {
+            try {
+                openRegister2(email, password);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
         final boolean[] emc = {false};
-        findViewById(R.id.checkInput).setOnClickListener(view -> checkInput());
 
                 mail.setOnFocusChangeListener(new View.OnFocusChangeListener() { //E-Mail -> ist das eine automatisierung und die Funktion kann auch so aufgerufen werden?
             @Override
@@ -23,21 +42,54 @@ public class Register1 extends AppCompatActivity {
                 if (!hasFocus) { // nach Beendigung der E-Mail-Eingabe
                     {
                         if(true){ // Abfrage, ob E-Mail ist valide xxx@yyy.zz / xxx@yyy.z1.zx / ... - funktioniert nicht
-                            if (!true){ // Abfrage, ob Mail bereits existiert
-                                emc[0] = true; // E-Mail-Check wird true
-                            } else ((TextView) findViewById(R.id.registererrors)).setText("E-Mail existiert bereits.");
-                        } else ((TextView) findViewById(R.id.registererrors)).setText("E-Mail hat ungültiges Format.");
+                            email = mail.getText().toString();
+                        } else ((TextView) findViewById(R.id.ErReg)).setText("E-Mail hat ungültiges Format.");
                     }
                 }
             }
         });
+
+        pw1.addTextChangedListener(new TextWatcher() { // watches Password
+
+            public void afterTextChanged(Editable s) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if(pw1.getText().toString().length()>=5) { // text not shorter 5 chars
+                    if (pw1.getText().toString().equals(pw2.getText().toString())) { // password1 /= password2 (repeat)
+                        ((TextView) findViewById(R.id.ErReg)).setText("");
+                        findViewById(R.id.reg2).setEnabled(true);
+                        password = pw1.getText().toString();
+                    } else ((TextView) findViewById(R.id.ErReg)).setText("Passwort ist nicht identisch.: " + pw1.getText().toString() + " & " + pw2.getText().toString());
+                } else ((TextView) findViewById(R.id.ErReg)).setText("Passwort zu kurz.");
+            }
+        });
+        pw2.addTextChangedListener(new TextWatcher() { // watches Password equals Password
+
+            public void afterTextChanged(Editable s) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if (pw1.getText().toString().equals(pw2.getText().toString())) { // password1 /= password2 (repeat)
+                    ((TextView) findViewById(R.id.ErReg)).setText("");
+                    findViewById(R.id.reg2).setEnabled(true);
+                } else ((TextView) findViewById(R.id.ErReg)).setText("Passwort ist nicht identisch.: " + pw1.getText().toString() + " & " + pw2.getText().toString());
+            }
+        });
     }
 
-    public void checkInput(){
-        if(true) { // text not shorter 5 chars
-            if (findViewById(R.id.password) != findViewById(R.id.password2)) { // password1 /= password2 (repeat)
-                // boa bin ich müde #2:49Uhr // if() emc muss true sein -> weiter zu seite 2
-            } else ((TextView) findViewById(R.id.registererrors)).setText("Passwort ist nicht identisch.");
-        } else ((TextView) findViewById(R.id.registererrors)).setText("Passwort zu kurz.");
+    public void openRegister2(String email, String password) throws Exception {
+        String uri = "neo4j+s://0a1e255a.databases.neo4j.io:7687";
+        String user = "neo4j";
+        String psw= "den2qfo4_9d2q0inyablqzgqfxdp3fijeq4k_wwgo_a";
+        String username = "testuser1";
+        String clearname = "Max Mustermann";
+        try (DBCom app = new DBCom(uri, user, psw, Config.defaultConfig())) {
+            app.createUser(username,email,password,clearname);
+        }
+        Intent intent= new Intent(this, Register2.class);
+        startActivity(intent);
     }
 }
