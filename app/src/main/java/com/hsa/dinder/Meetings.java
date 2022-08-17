@@ -44,7 +44,7 @@ public class Meetings extends AppCompatActivity {
         name_bt = findViewById(R.id.name_bt);
         listView = findViewById(R.id.list_view);
 
-        name_bt.setText(getLocalBluetoothName());
+        name_bt.setText("BT Title");
 
         BA = BluetoothAdapter.getDefaultAdapter();
 
@@ -156,7 +156,7 @@ public class Meetings extends AppCompatActivity {
         }
         String name = BA.getName();
         if (name==null){
-            name = "get adress";
+            name = "get address";
         }
 
         return name;
