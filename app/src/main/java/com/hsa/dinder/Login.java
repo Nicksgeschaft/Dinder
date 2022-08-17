@@ -3,12 +3,27 @@ package com.hsa.dinder;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
+import org.neo4j.driver.Config;
+
+import testPack.DBCom;
+
 public class Login extends AppCompatActivity {
+
+    public String getMail(){
+        EditText mail = findViewById(R.id.mail);
+        return mail.getText().toString();
+    }
+
+    public String getPassword(){
+        EditText password = findViewById(R.id.password1);
+        return password.getText().toString();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +31,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         EditText mail = findViewById(R.id.mail);
         EditText pw = findViewById(R.id.password1);
-        findViewById(R.id.login).setOnClickListener(view -> sendData()); // Button send Data
+        findViewById(R.id.login).setOnClickListener(view -> sendData(mail.getText().toString(), pw.getText().toString())); // Button send Data
 
         mail.addTextChangedListener(new TextWatcher() { // watches Email Input (optional)
             public void afterTextChanged(Editable s) {}
@@ -32,13 +47,36 @@ public class Login extends AppCompatActivity {
 
 
     }
-    public void sendData(){
-        // Datenbank abfragen
-        // if true -> open MyPage
+    public void sendData(String email, String password){
+        new MyTask().execute();
     }
 
     public void openMyPage() { // Login.class -> MyPage
         Intent intent= new Intent(this, Login.class);
         startActivity(intent);
+    }
+
+
+    private class MyTask extends AsyncTask<Void, Void, Void> {
+        String result;
+        @Override
+        protected Void doInBackground(Void... voids) {
+            String uri = "neo4j+s://0a1e255a.databases.neo4j.io:7687";
+            String user = "neo4j";
+            String psw= "dEn2QFo4_9d2Q0INYabLQzgqfXDP3fIJEQ4k_wWgO_A";
+            try (DBCom app = new DBCom(uri, user, psw, Config.defaultConfig())) {
+                app.findUser(getMail());
+                app.checkPasswort(getPassword(), getPassword());
+                result = "true";
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+        }
     }
 }
