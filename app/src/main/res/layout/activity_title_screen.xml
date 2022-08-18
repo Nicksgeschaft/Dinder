@@ -43,7 +43,6 @@
         android:layout_height="48dp"
         android:background="@color/foreground"
         android:backgroundTint="@color/foreground"
-        android:onClick="openLogIn"
         android:text="@string/login_de"
         android:textColor="@color/white"
         app:iconTint="@color/foreground"
