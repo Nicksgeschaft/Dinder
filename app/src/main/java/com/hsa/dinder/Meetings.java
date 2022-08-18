@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -50,7 +51,7 @@ public class Meetings extends AppCompatActivity {
 
 
         if (BA == null) {
-            Toast.makeText(this, "Bluetooth not supported", Toast.LENGTH_SHORT).show();
+            showToast("No Bluetooth Service available.");
             finish();
         }
 
@@ -64,7 +65,7 @@ public class Meetings extends AppCompatActivity {
                 if (!isChecked) {
                     if (ActivityCompat.checkSelfPermission(Meetings.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                         // TODO: Consider calling
-                        //    ActivityCompat#requestPermissions
+                        ActivityCompat.requestPermissions(Meetings.this, new String[]{Manifest.permission.BLUETOOTH_ADMIN},1);
                         // here to request the missing permissions, and then overriding
                         //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
                         //                                          int[] grantResults)
@@ -73,11 +74,11 @@ public class Meetings extends AppCompatActivity {
                         return;
                     }
                     BA.disable();
-                    Toast.makeText(Meetings.this, "Turned off", Toast.LENGTH_SHORT).show();
+                    showToast("Turned off");
                 } else {
-                    Intent intentOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                    startActivityForResult(intentOn, 0);
-                    Toast.makeText(Meetings.this, "Turned on", Toast.LENGTH_SHORT).show();
+                    Intent intentON = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    startActivityForResult(intentON, 0);
+                    showToast("Turned on");
                 }
             }
         });
@@ -97,8 +98,10 @@ public class Meetings extends AppCompatActivity {
                         // for ActivityCompat#requestPermissions for more details.
                         return;
                     }
-                    startActivityForResult(getVisible, 0);
-                    Toast.makeText(Meetings.this, "Visible for 2 min", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+                    startActivityForResult(intent , 1);
+                    //startActivityForResult(getVisible, 0);
+                    showToast("Visible for 2min.");
                 }
             }
         });
@@ -157,8 +160,29 @@ public class Meetings extends AppCompatActivity {
             } else
                 return BA.getName();
         }
-
         return "No Service";
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        switch (requestCode){
+            case 0:
+
+                if (resultCode == RESULT_OK) {
+                    // Bluetooth is on
+
+                    showToast("Bluetooth is on");
+                }
+                else {
+                    showToast("Failed to connect to bluetooth");
+                }
+
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    private void showToast (String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
 
 
