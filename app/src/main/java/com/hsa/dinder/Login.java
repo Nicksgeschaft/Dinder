@@ -31,7 +31,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         EditText mail = findViewById(R.id.mail);
         EditText pw = findViewById(R.id.password1);
-        findViewById(R.id.login).setOnClickListener(view -> sendData(mail.getText().toString(), pw.getText().toString())); // Button send Data
+        findViewById(R.id.login).setOnClickListener(view -> sendData()); // Button send Data
 
         mail.addTextChangedListener(new TextWatcher() { // watches Email Input (optional)
             public void afterTextChanged(Editable s) {}
@@ -47,9 +47,11 @@ public class Login extends AppCompatActivity {
 
 
     }
-    public void sendData(String email, String password){
-        new MyTask().execute();
-        if(true){ // email & password sind korrekt
+    public void sendData(){
+        MyTask mytask = new MyTask();
+        mytask.execute();
+        System.out.println(mytask.getIsUser());
+        if(mytask.getIsUser()){ // email & password sind korrekt
             openMyPage();
         }
     }
@@ -61,6 +63,14 @@ public class Login extends AppCompatActivity {
 
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
+        private boolean isUser, isMail;
+
+        private boolean getIsMail() {
+            return isMail;
+        }
+        private boolean getIsUser(){
+            return isUser;
+        }
         String result;
         @Override
         protected Void doInBackground(Void... voids) {
@@ -68,9 +78,8 @@ public class Login extends AppCompatActivity {
             String user = "neo4j";
             String psw= "dEn2QFo4_9d2Q0INYabLQzgqfXDP3fIJEQ4k_wWgO_A";
             try (DBCom app = new DBCom(uri, user, psw, Config.defaultConfig())) {
-                app.findUser(getMail());
-                app.checkPasswort(getPassword(), getPassword());
-                result = "true";
+                isMail = app.checkUser(getMail());
+                isUser = app.checkPasswort(getMail(), getPassword());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -81,5 +90,7 @@ public class Login extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
 
         }
+
+
     }
 }
