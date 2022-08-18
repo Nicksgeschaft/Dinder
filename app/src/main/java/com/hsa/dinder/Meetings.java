@@ -109,6 +109,7 @@ public class Meetings extends AppCompatActivity {
                     Intent intentON = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                     startActivityForResult(intentON, 0);
                     showToast("Turned on");
+                    //hello
                 }
             }
         });
