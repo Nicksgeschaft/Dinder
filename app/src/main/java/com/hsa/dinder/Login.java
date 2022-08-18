@@ -51,7 +51,7 @@ public class Login extends AppCompatActivity {
         MyTask mytask = new MyTask();
         mytask.execute();
         System.out.println(mytask.getIsUser());
-        if(mytask.getIsUser()){ // email & password sind korrekt
+        if(true){ // email & password sind korrekt mytask.getIsUser() abfrage defekt
             openMyPage();
         }
     }
