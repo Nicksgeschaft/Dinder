@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="80dp"
-        android:layout_height="64dp"
+        android:layout_width="105dp"
+        android:layout_height="91dp"
         android:layout_marginTop="80dp"
         android:contentDescription="Logo"
         android:scaleX="2"
@@ -20,7 +20,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/sym_def_app_icon" />
+        app:srcCompat="@drawable/logo" />
 
     <TextView
         android:id="@+id/textView"

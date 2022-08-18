@@ -63,11 +63,8 @@ public class Login extends AppCompatActivity {
 
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
-        private boolean isUser, isMail;
+        private boolean isUser;
 
-        private boolean getIsMail() {
-            return isMail;
-        }
         private boolean getIsUser(){
             return isUser;
         }
@@ -78,7 +75,6 @@ public class Login extends AppCompatActivity {
             String user = "neo4j";
             String psw= "dEn2QFo4_9d2Q0INYabLQzgqfXDP3fIJEQ4k_wWgO_A";
             try (DBCom app = new DBCom(uri, user, psw, Config.defaultConfig())) {
-                isMail = app.checkUser(getMail());
                 isUser = app.checkPasswort(getMail(), getPassword());
             } catch (Exception e) {
                 e.printStackTrace();
